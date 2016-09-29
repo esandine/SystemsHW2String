@@ -1,0 +1,2 @@
+strtest: string.c
+	gcc
