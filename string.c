@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 //Length
-int elylen(char s[]){
+int elylen(char *s){
   int i = 0;
-  while(s[i]){
+  while(*(s+i)){
     i++;
   }
   return i;
@@ -12,25 +12,39 @@ int elylen(char s[]){
 //strncpy
 char* elyncpy(char *dest, char *src, int n){
   dest+=n;
-  while(n>=0){
-    dest=src+n;
+  while(n>0){
+    *dest=*(src+n);
     n--;
     dest--;
   }
+  return dest;
 }
 //strcpy
 char* elycpy(char *dest, char *src){
-  elyncpy(dest, src, elylen(src));
+  return elyncpy(dest, src, elylen(src));
 }
 
 //strncat
 char* elyncat(char *dest, char *src, int n){
-  elyncpy(dest+elylen(dest), src, n);
+  return elyncpy(dest+elylen(dest), src, n)-elylen(dest);
 }
 
 //strcpy
 char* elycat(char *dest, char *src){
-  elyncat(dest,src,elylen(src));
+  return elyncat(dest,src,elylen(src));
+}
+
+int elycmp(char *s1, char *s2){
+  if(*s2-*s1){
+    return *s2 -*s1;
+  }
+  if(*s1&&*s2){
+    return 0;
+  }
+  if(*s1||*s2){
+    return *s2 -*s1;
+  }
+  return strcmp(s1+1,s2+1);
 }
 int main(){
   //Length 
@@ -59,5 +73,12 @@ int main(){
   char catted[5] = "Ely2";
   printf("strcat(Ely,Ely2): %s\n",strcat(cat,catted));
   printf("elycat(Ely,Ely2): %s\n\n",elycat(cat,catted));
+  return 0;
 
+  //strcmp
+  char cmp1[5] = "Ely";
+  char cmp2[5] = "Egg";
+  printf("strcmp(Ely,Egg): %d\n",strcmp(cmp1,cmp2));
+  printf("elycat(Ely,Egg): %d\n\n",elycmp(cmp1,cmp2));
+  return 0;
 }

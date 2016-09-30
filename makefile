@@ -1,2 +1,4 @@
 strtest: string.c
-	gcc
+	gcc string.c -o strtest
+run:
+	./strtest
